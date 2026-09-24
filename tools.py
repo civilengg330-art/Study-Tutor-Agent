@@ -13,8 +13,15 @@ def calculator(expression: str) -> str:
     """
 
     try:
-        result = eval(expression, {"__builtins__": {}}, {})
+
+        result = eval(
+            expression,
+            {"__builtins__": {}},
+            {}
+        )
+
         return f"The result is {result}"
 
     except Exception:
+
         return "I could not calculate that expression."
