@@ -1,22 +1,27 @@
 import os
 
+from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM
 
 from tools import calculator
 from memory import get_memory_text
 
 
+# Load environment variables
+load_dotenv()
+
+
 def create_study_tutor():
 
     llm = LLM(
         model="groq/openai/gpt-oss-120b",
-        api_key=os.environ.get("GROQ_API_KEY"),
+        api_key=os.getenv("GROQ_API_KEY"),
         temperature=0.3
     )
 
     tutor = Agent(
         role="Study Tutor",
-        
+
         goal=(
             "Help students understand academic concepts clearly, "
             "answer questions accurately, simplify difficult topics, "
@@ -63,8 +68,9 @@ def ask_tutor(question):
         1. Answer clearly.
         2. Explain difficult concepts step by step.
         3. Use the Calculator tool when mathematical calculation is needed.
-        4. Do not pretend to know information you do not know.
+        4. Do not invent facts.
         5. If the student asks for an example, provide a simple example.
+        6. Adapt the explanation to the student's apparent level.
         """,
 
         expected_output=(
